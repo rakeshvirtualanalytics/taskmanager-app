@@ -16,16 +16,16 @@ const TaskList = () => {
   }, [tasks, filter]);
 
   const handleDragEnd = (result) => {
-  if (!result.destination) return;
+    if (!result.destination) return;
 
-  // Only allow reorder if filter is 'All'
-  if (filter !== 'All') {
-    alert("Reordering is only allowed in 'All' view.");
-    return;
-  }
+    // Only allow reorder if filter is 'All'
+    if (filter !== 'All') {
+      alert("Reordering is only allowed in 'All' view.");
+      return;
+    }
 
-  reorderTasks(result.source.index, result.destination.index);
-};
+    reorderTasks(result.source.index, result.destination.index);
+  };
 
 
   return (

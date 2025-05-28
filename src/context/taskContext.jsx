@@ -36,9 +36,8 @@ export const TaskProvider = ({ children }) => {
     updatedTasks.splice(endIndex, 0, moved);
     setTasks(updatedTasks);
   };
-
   return (
-    <TaskContext.Provider value={{ tasks, addTask, toggleTask, deleteTask, reorderTasks, setTasks }}>
+    <TaskContext.Provider value={{ tasks, addTask, toggleTask, deleteTask, reorderTasks }}>
       {children}
     </TaskContext.Provider>
   );

@@ -1,26 +1,27 @@
 import React, { useContext, useState, useMemo } from "react";
 import { TaskContext } from "../context/taskContext";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import TaskItem from "./TaskItem";
 
 const TaskList = () => {
-  const { tasks, toggleTask, deleteTask } = useContext(TaskContext);
-  const [filter, setFilter] = useState("all");
+  const { tasks, toggleTask, deleteTask, reorderTasks } = useContext(TaskContext);
+  const [filter, setFilter] = useState("All");
 
   const filteredTasks = useMemo(() => {
     return tasks.filter(task => {
-      if (filter === "completed") return task.completed;
-      if (filter === "pending") return !task.completed;
+      if (filter === "Completed") return task.completed;
+      if (filter === "Pending") return !task.completed;
       return true;
     });
   }, [tasks, filter]);
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
-    const reordered = Array.from(filteredTasks);
-    const [moved] = reordered.splice(result.source.index, 1);
-    reordered.splice(result.destination.index, 0, moved);
-    // Optional: setTasks(reordered) for saving order
+    // Only allow reorder if filter is 'All'
+    if (filter !== 'All') {
+      alert("Reordering is only allowed in 'All' view.");
+      return;
+    }
+    reorderTasks(result.source.index, result.destination.index);
   };
 
   return (
@@ -36,7 +37,7 @@ const TaskList = () => {
           {(provided) => (
             <ul ref={provided.innerRef} {...provided.droppableProps}>
               {filteredTasks.map((task, index) => (
-                <Draggable key={task.id} draggableId={String(task.id)} index={index} isDragDisabled={filter !== 'All'}>
+                <Draggable key={task.id} draggableId={task.id.toString()} index={index} isDragDisabled={filter !== 'All'}>
                   {(provided) => (
                     <li
                       ref={provided.innerRef}
@@ -44,7 +45,11 @@ const TaskList = () => {
                       {...provided.dragHandleProps}
                       style={{ ...provided.draggableProps.style, marginBottom: "8px" }}
                     >
-                      <TaskItem task={task} />
+                      <div className="task-item">
+                        <input type="checkbox" checked={task.completed} onChange={() => toggleTask(task.id)} />
+                        <span style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>{task.text}</span>
+                        <button className='btn btn-danger' onClick={() => deleteTask(task.id)}>Delete</button>
+                      </div>
                       {/* <span
                         onClick={() => toggleTask(task.id)}
                         style={{

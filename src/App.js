@@ -1,3 +1,5 @@
+// Using localstorage 
+
 import React, { useState } from "react";
 import { TaskProvider } from "./context/TaskContexts";
 import TaskInput from './components/TaskInput';
@@ -22,19 +24,33 @@ function App() {
   );
 }
 
-export default App;
-// import React from 'react';
-// import TaskInput from './components/TaskInput';
-// import TaskList from './components/TaskLists';
 
-// const App = () => {
+// Using Axios, Express
+
+// import React, { useState } from "react";
+// import { TaskProvider } from "./context/taskContext";
+// import TaskForm from "./components/taskForm";
+// import TaskList from "./components/taskList";
+
+// function App() {
+//   const [dark, setDark] = useState(false);
+
 //   return (
-//     <div className="app">
-//       <h1>Task Manager</h1>
-//       <TaskInput />
-//       <TaskList />
-//     </div>
+//     <TaskProvider>
+//       <div className={dark ? "app dark" : "app"}>
+//         <header>
+//           <h1>Task Manager</h1>
+//           <button onClick={() => setDark(!dark)} className={dark ? "btn btn-light":"btn btn-dark"}>
+//             {dark ? "🌞 Light Mode" : "🌙 Dark Mode"}
+//           </button>
+//         </header>
+//         <TaskForm />
+//         <TaskList />
+//       </div>
+//     </TaskProvider>
 //   );
-// };
+// }
 
-// export default App;
+export default App;
+
+
